@@ -9,6 +9,7 @@ module.exports = {
     "webpack.config.js",
     "*.user.js",
     "*.map",
+    "dist/**",
   ],
   extends: [
     "eslint:recommended",
