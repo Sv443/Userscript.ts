@@ -6,15 +6,29 @@ import webpackCfg from "../../webpack.config.js";
 import pkg from "../../package.json" assert { type: "json" };
 
 
+/**
+ * Namespace (user or organization) and repository name, separated by a slash.  
+ * Don't add slashes at the beginning or end!
+ */
 const repo = "Sv443/Userscript.ts";
-/** Which URLs should the userscript be active on - see https://wiki.greasespot.net/Metadata_Block#%40match */
+/**
+ * Which URLs should the userscript be active on?  
+ * See https://wiki.greasespot.net/Metadata_Block#%40match
+ */
 const matchUrls = [
   "https://example.org/*", "https://example.com/*"
 ];
-/** URL to the icon of the userscript - recommended size is 32x32 */
+/**
+ * URL to the icon of the userscript.  
+ * Recommended size is 32x32
+ */
 const iconUrl = `https://raw.githubusercontent.com/${repo}/main/assets/icon.png`;
-/** Whether to inject a build number (last Git commit SHA) anywhere where there's a {{BUILD_NUMBER}} in the userscript */
+/**
+ * Whether to inject a build number (last Git commit SHA) anywhere where there's the text {{BUILD_NUMBER}} in the userscript.  
+ * See `index.ts` for an example.
+ */
 const injectBuildNbr = true;
+
 
 const userscriptDistFile = webpackCfg.output.filename;
 const distFolderPath = webpackCfg.output.path;
@@ -45,7 +59,8 @@ ${matchDirectives}\
 
 // other directives you might want to add:
 
-// (works with any ISO 639-1 language code)
+// for help with localization, see https://wiki.greasespot.net/Metadata_Block#@name
+// @name:de         ${pkg["userscriptName:de"]}
 // @description:de  ${pkg["description:de"]}
 
 // @grant           GM.setValue
@@ -85,6 +100,8 @@ ${matchDirectives}\
   }
 })();
 
+// utility functions:
+
 /** Tests if the current user has read and write access to the file at the given `path` and by extension, if it exists in the first place */
 async function exists(path: string) {
   try {
@@ -97,8 +114,9 @@ async function exists(path: string) {
 }
 
 /**
- * Used as a kind of "build number", though note it is always behind by at least one commit,
- * as the act of putting this number in the userscript changes the hash again, indefinitely
+ * Returns the first 7 characters of the last git commit SHA1 hash.  
+ * This is used as a kind of historically traceable build number, though note it is always behind by at least one commit,
+ * because the act of putting this number in the userscript changes the hash again, indefinitely.
  */
 function getLastCommitSha() {
   return new Promise<string>((res, rej) => {
