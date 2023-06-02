@@ -1,6 +1,4 @@
-import { dirname, join } from "path";
 import { exec } from "child_process";
-import { fileURLToPath } from "url";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
@@ -11,13 +9,13 @@ export default {
   entry: "./src/index.ts",
   output: {
     filename: `${pkg.userscriptName}.user.js`,
-    path: join(dirname(fileURLToPath(import.meta.url)), "/dist"),
+    path: "/dist",
   },
   mode: "production",
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.tsx?$/i,
         use: "ts-loader",
         exclude: /node_modules/,
       },
@@ -26,7 +24,7 @@ export default {
         loader: "html-loader",
       },
       {
-        test: /\.md$/,
+        test: /\.md$/i,
         use: [
           {
             loader: "html-loader",
@@ -37,14 +35,27 @@ export default {
         ],
       },
       {
-        test: /.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader" /*, "sass-loader"*/],
+        test: /.css$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: "css-loader" },
+          // { loader: "sass-loader" }, // if you want to be able to import .scss files (install with `npm i -D sass-loader` first)
+        ],
       },
       // bundle and import any file as a string (install with `npm i -D raw-loader` first):
       // {
       //   test: /\.txt$/i,
       //   use: "raw-loader",
       // },
+    ],
+  },
+  resolve: {
+    extensions: [
+      ".ts",
+      ".js",
+      ".css",
+      // ".scss",
+      ".md",
     ],
   },
   optimization: {
@@ -68,8 +79,5 @@ export default {
       },
     },
   ],
-  resolve: {
-    extensions: [".ts", ".js", ".css"],
-  },
   devtool: "source-map",
 };

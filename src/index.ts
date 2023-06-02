@@ -24,12 +24,13 @@ function init() {
 
   document.addEventListener("DOMContentLoaded", onDomLoad);
 
-  // this string gets replaced with the minified bundle of all imported CSS files by the script in src/tools/post-build.ts
+  // don't remove this - this string gets replaced with the minified bundle of all imported CSS files by the script in src/tools/post-build.ts
   addGlobalStyle("{{GLOBAL_STYLE}}");
 }
 
 /** In here you can freely insert or delete elements as the DOM is now guaranteed to be modifiable */
 function onDomLoad() {
+  // add a custom element with its contents set to an imported markdown file
   const changelogElement = document.createElement("div");
   // innerHTML is usually very unsafe but in this case we know the source can be trusted
   changelogElement.innerHTML = changelogContent;

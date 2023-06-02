@@ -54,6 +54,8 @@ Like this template? Please consider [supporting the development ❤️](https://
   For this to work properly, don't forget to bump the version in `package.json` if you want every user of your userscript to receive the update.
 - The name of the emitted bundle inside `dist/` is bound to `userscriptName` in `package.json`  
   You may want to hard-code it or create a separate property for it if the userscript name contains characters that aren't allowed in a file path.
+- Try to get familiar with the [webpack config](https://webpack.js.org/configuration/) at `webpack.config.js`  
+  In there you may add and configure webpack plugins and configure the build process.
 
 <br><br><br>
 
