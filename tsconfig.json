@@ -6,7 +6,7 @@
     "outDir": "dist/out",
     "lib": [
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
     ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -28,13 +28,12 @@
   "exclude": [
     "**/*.js",
     "dist/**",
-    "rollup.config.cjs",
   ],
   "typeAcquisition": {
     "enable": true,
     "include": [
       "types.d.ts",
-    ]
-  }
+    ],
+  },
 }
   
