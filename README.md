@@ -3,6 +3,7 @@
 <h1><img alt="icon" src="./assets/icon.png"><br>Userscript.ts</h1>
 
 Typescript ESM template for making [userscripts](https://en.wikipedia.org/wiki/Userscript) that supports importing, parsing and minifying HTML, CSS, Markdown and misc. files directly in code, packing it all up with webpack and applying custom injections for the userscript header and more.  
+It also offers ESLint to lint and auto-fix the code and GitHub Actions with CodeQL and ESLint to lint the code in CI and check it for vulnerabilities.  
   
 Like this template? Please consider [supporting the development ❤️](https://github.com/sponsors/Sv443)
 
