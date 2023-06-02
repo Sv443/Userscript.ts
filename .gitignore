@@ -1,0 +1,7 @@
+node_modules/
+test.js
+test.ts
+
+dist/*.map
+dist/out/
+dist/*.css

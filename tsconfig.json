@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2016",
+    "outDir": "dist/out",
+    "lib": [
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "useDefineForClassFields": true,
+  },
+  "ts-node": {
+    "esm": true,
+    "preferTsExts": true,
+  },
+  "exclude": [
+    "**/*.js",
+    "dist/**",
+    "rollup.config.cjs",
+  ],
+  "typeAcquisition": {
+    "enable": true,
+    "include": [
+      "types.d.ts",
+    ]
+  }
+}
+  
