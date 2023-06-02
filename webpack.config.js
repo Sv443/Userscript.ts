@@ -10,6 +10,7 @@ export default {
   output: {
     filename: `${pkg.userscriptName}.user.js`,
     path: "/dist",
+    clean: true,
   },
   mode: "production",
   module: {
