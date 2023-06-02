@@ -63,6 +63,7 @@ ${matchDirectives}\
 // @name:de         ${pkg["userscriptName:de"]}
 // @description:de  ${pkg["description:de"]}
 
+// set and read persistent values
 // @grant           GM.setValue
 // @grant           GM.getValue
 
@@ -90,7 +91,7 @@ ${matchDirectives}\
     await writeFile(scriptPath, `${header}\n${userscript}${userscript.endsWith("\n") ? "" : "\n"}`);
 
     console.info("Successfully added the userscript header.");
-    // console.info(`Build number: ${lastCommitSha}`);
+    lastCommitSha && console.info(`Build number: ${lastCommitSha}`);
     console.info(`Final size is \x1b[32m${((await stat(scriptPath)).size / 1024).toFixed(2)} KiB\x1b[0m\n`);
   }
   catch(err) {
