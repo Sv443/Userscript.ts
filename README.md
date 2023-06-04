@@ -46,16 +46,16 @@ Like this template? Please consider [supporting the development ❤️](https://
 - If you're using the [ViolentMonkey extension](https://violentmonkey.github.io/) (which I recommend), after running the command `npm run watch`, you may open the URL shown in the console in your browser and select the `Track local file` option in the installation dialog.  
   This makes it so the userscript automatically updates when the code changes (reloading the website is still necessary).  
   Note: the tab needs to stay open on Firefox or the script won't keep updating itself.
-- To see an example of how the code in `src/index.ts` will be packed, check out the file at [`dist/EXAMPLE.user.js`](./dist/EXAMPLE.user.js)
 - Use an IDE like [VS Code](https://code.visualstudio.com/) so Intellisense and Typescript can work together to give you really awesome code completion and warn you about potential runtime errors before you even build the code.
 - If you are using VS Code, install the ESLint extension ([`dbaeumer.vscode-eslint`](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)) and bind a hotkey for the `ESLint: Fix all auto-fixable problems` command so you can quickly format the currently active file according to the rules in `.eslintrc.cjs`
 - The final bundled userscript file in the `dist/` folder should be committed and pushed to GitHub.  
   This way, the `@downloadURL` and `@updateURL` directives make it so the script is automatically updated from that same file.  
-  For this to work properly, don't forget to bump the version in `package.json` if you want every user of your userscript to receive the update.
+  For this to work properly, don't forget to bump the version in `package.json` before building, if you want every user of your userscript to receive the update.
 - The name of the emitted bundle inside `dist/` is bound to `userscriptName` in `package.json`  
   You may want to hard-code it or create a separate property for it if the userscript name contains characters that aren't allowed in a file path.
 - Try to get familiar with the [webpack config](https://webpack.js.org/configuration/) at `webpack.config.js`  
   In there you may add and configure webpack plugins and configure the build process.
+- To see an example of how the code in `src/index.ts` will be packed, check out the file at [`dist/EXAMPLE.user.js`](./dist/EXAMPLE.user.js)
 
 <br><br><br>
 
