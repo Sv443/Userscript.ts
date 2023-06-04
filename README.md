@@ -56,6 +56,7 @@ Like this template? Please consider [supporting the development ❤️](https://
 - Try to get familiar with the [webpack config](https://webpack.js.org/configuration/) at `webpack.config.js`  
   In there you may add and configure webpack plugins and configure the build process.
 - To see an example of how the code in `src/index.ts` will be packed, check out the file at [`dist/EXAMPLE.user.js`](./dist/EXAMPLE.user.js)
+- If you want other people to use your userscript, I recommend publishing it to [GreasyFork](https://greasyfork.org) and/or [OpenUserJS](https://openuserjs.org)
 
 <br><br><br>
 
