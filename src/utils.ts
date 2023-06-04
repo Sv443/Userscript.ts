@@ -1,6 +1,6 @@
 /**
  * Adds global CSS style through a `<style>` element in the document's `<head>`  
- * Can be run before `DOMContentLoaded` is emitted
+ * Can **not** be run before `DOMContentLoaded` is emitted
  * @param style CSS string
  */
 export function addGlobalStyle(style: string) {
