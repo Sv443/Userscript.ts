@@ -23,11 +23,12 @@ Like this template? Please consider [supporting the development ❤️](https://
 <br>
 
 ## First steps:
-1. Inside `package.json`, update the properties `name`, `userscriptName`, `description`, `homepage`, `author`, `license` and `repository.url`
-2. Modify the userscript header and variables at the top of `src/tools/post-build.ts` to whatever your heart desires (see [reference](https://wiki.greasespot.net/Metadata_Block))
-3. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
-4. Hook your own initialization functions in `init()` and `onDomLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
-5. Refer to [commands](#commands) and [development](#development-and-notes)
+1. Copy `.env.template` to `.env` and change the values inside if needed
+2. Inside `package.json`, update the properties `name`, `userscriptName`, `description`, `homepage`, `author`, `license` and `repository.url`
+3. Modify the userscript header and variables at the top of `src/tools/post-build.ts` to whatever your heart desires (see [reference](https://wiki.greasespot.net/Metadata_Block))
+4. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
+5. Hook your own initialization functions in `init()` and `onDomLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
+6. Refer to [commands](#commands) and [development](#development-and-notes)
 
 <br>
 

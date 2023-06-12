@@ -1,9 +1,14 @@
 import { exec } from "child_process";
+import dotenv from "dotenv";
 
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 import pkg from "./package.json" assert { type: "json" };
+
+dotenv.config();
+
+const mode = ["development", "production"].includes(process.env.NODE_ENV) ? process.env.NODE_ENV : "development";
 
 export default {
   entry: "./src/index.ts",
@@ -12,7 +17,7 @@ export default {
     path: "/dist",
     clean: true,
   },
-  mode: "production",
+  mode,
   module: {
     rules: [
       {

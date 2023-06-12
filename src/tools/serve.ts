@@ -3,12 +3,12 @@ import { resolve } from "path";
 import { fileURLToPath } from "url";
 import webpackCfg from "../../webpack.config.js";
 
+const envPort = Number(process.env.DEV_SERVER_PORT);
+
 /** HTTP port of the dev server */
-const devServerPort = 8710;
+const devServerPort = isNaN(envPort) || envPort === 0 ? 8710 : envPort;
 /** Whether to log requests to the console */
 const enableLogging = false;
-/** Whether to make a bell sound (in some terminals) when the userscript is ready to be fetched */
-const ringBell = true;
 
 const app = express();
 
@@ -37,5 +37,4 @@ app.listen(devServerPort, "0.0.0.0", () => {
     process.stdout.write("\nRequests: ");
   else
     console.log("\x1b[2m(request logging is disabled)\x1b[0m");
-  ringBell && process.stdout.write("\u0007");
 });

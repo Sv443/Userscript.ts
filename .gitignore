@@ -1,7 +1,8 @@
-node_modules/
+.env
 test.js
 test.ts
 
+node_modules/
 dist/*.map
 dist/out/
 dist/*.css

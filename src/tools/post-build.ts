@@ -1,9 +1,13 @@
-import { readFile, writeFile, stat, access, constants as fsconstants } from "fs/promises";
-import { join } from "path";
+import { readFile, writeFile, access, constants as fsconstants } from "fs/promises";
+import { join, relative } from "path";
 import { exec } from "child_process";
+import dotenv from "dotenv";
 
 import webpackCfg from "../../webpack.config.js";
 import pkg from "../../package.json" assert { type: "json" };
+
+const { env, exit } = process;
+dotenv.config();
 
 
 /**
@@ -28,6 +32,10 @@ const iconUrl = `https://raw.githubusercontent.com/${repo}/main/assets/icon.png`
  * See `index.ts` for an example.
  */
 const injectBuildNbr = true;
+/**
+ * Whether to trigger the bell sound in some terminals when the code has finished compiling
+ */
+const ringBell = env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_BELL.trim().toLowerCase() !== "false");
 
 
 const userscriptDistFile = webpackCfg.output.filename;
@@ -87,17 +95,29 @@ ${matchDirectives}\
     if(lastCommitSha)
       userscript = userscript.replace(/\/?\*?{{BUILD_NUMBER}}\*?\/?/gm, lastCommitSha);
 
-    // overwrite with finished userscript
-    await writeFile(scriptPath, `${header}\n${userscript}${userscript.endsWith("\n") ? "" : "\n"}`);
+    const finalUserscript = `${header}\n${userscript}${userscript.endsWith("\n") ? "" : "\n"}`;
 
-    console.info("Successfully added the userscript header.");
-    lastCommitSha && console.info(`Build number: ${lastCommitSha}`);
-    console.info(`Final size is \x1b[32m${((await stat(scriptPath)).size / 1024).toFixed(2)} KiB\x1b[0m\n`);
+    // overwrite with finished userscript
+    await writeFile(scriptPath, finalUserscript);
+
+    const envText = env.NODE_ENV === "production" ? "\x1b[32mproduction" : "\x1b[33mdevelopment";
+    const sizeKiB = (Buffer.byteLength(finalUserscript, "utf8") / 1024).toFixed(2);
+
+    console.info(`Successfully built for ${envText}\x1b[0m`);
+    lastCommitSha && console.info(`Build number (last commit SHA): \x1b[34m${lastCommitSha}\x1b[0m`);
+    console.info(`Outputted file '${relative("./", scriptPath)}' with a size of \x1b[32m${sizeKiB} KiB\x1b[0m\n`);
+
+    ringBell && process.stdout.write("\u0007");
+
+    // schedule exit after I/O finishes
+    setImmediate(() => exit(0));
   }
   catch(err) {
     console.error("Error while adding userscript header:");
     console.error(err);
-    setImmediate(() => process.exit(1));
+
+    // schedule exit after I/O finishes
+    setImmediate(() => exit(1));
   }
 })();
 
