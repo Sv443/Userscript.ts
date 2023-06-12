@@ -22,13 +22,9 @@ app.use((err: unknown, _req: Request, _res: Response, _next: NextFunction) => {
     console.error("\x1b[31mError in dev server:\x1b[0m\n", err);
 });
 
-// serves everything from `webpack_config.output.path` (`dist/` by default)
+// serves everything from `webpackConfig.output.path` (`dist/` by default)
 app.use(express.static(
-  resolve(fileURLToPath(import.meta.url), "../../", webpackCfg.output.path),
-  {
-    etag: false,
-    maxAge: 5_000,
-  }
+  resolve(fileURLToPath(import.meta.url), "../../", webpackCfg.output.path)
 ));
 
 app.listen(devServerPort, "0.0.0.0", () => {
