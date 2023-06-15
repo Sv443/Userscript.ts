@@ -26,7 +26,7 @@ export default {
         exclude: /node_modules/,
       },
       {
-        test: /\.html$/i,
+        test: /\.html?$/i,
         loader: "html-loader",
       },
       {
@@ -41,7 +41,7 @@ export default {
         ],
       },
       {
-        test: /.css$/i,
+        test: /\.css$/i,
         use: [
           MiniCssExtractPlugin.loader,
           { loader: "css-loader" },
@@ -64,6 +64,8 @@ export default {
       ".md",
     ],
   },
+  // enable sourcemaps if NODE_ENV === "development"
+  ...(mode === "development" ? { devtool: "source-map" } : {}),
   optimization: {
     minimizer: [
       `...`,
@@ -85,5 +87,4 @@ export default {
       },
     },
   ],
-  devtool: "source-map",
 };
