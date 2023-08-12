@@ -1,5 +1,5 @@
 import { insertExampleElements } from "./example";
-import { addGlobalStyle } from "./utils";
+import { addGlobalStyle } from "@sv443-network/userutils";
 
 /**
  * Called whenever the script is initialized, depending on the value of `@run-at` inside the userscript header.  
@@ -7,18 +7,21 @@ import { addGlobalStyle } from "./utils";
  */
 function init() {
   const buildNbr = "{{BUILD_NUMBER}}";
-  const buildNbrText = buildNbr !== "{{BUILD_NUMBER}}" ? `-${buildNbr}` : "";
+  const buildNbrText = !buildNbr.match(/^{{.+}}$/) ? `-${buildNbr}` : "";
 
   // watermark in the console based on values grabbed out of the userscript header
   console.log(`${GM.info.script.name} (${GM.info.script.version}${buildNbrText}) - ${GM.info.script.namespace}`);
 
-  document.addEventListener("DOMContentLoaded", onDomLoad);
+  document.addEventListener("DOMContentLoaded", onLoad);
 }
 
 /** In here you can freely insert or delete elements as the DOM is now guaranteed to be modifiable */
-function onDomLoad() {
-  // don't remove this - this string gets replaced with the minified bundle of all imported CSS files by the script in src/tools/post-build.ts
-  addGlobalStyle("{{GLOBAL_STYLE}}");
+function onLoad() {
+  // this string gets replaced with the minified bundle of all imported CSS files by the script in src/tools/post-build.ts
+  const globalStyle = "{{GLOBAL_STYLE}}";
+  // if no css file is imported anywhere, no bundle is emitted and so addGlobalStyle has to be skipped
+  if(!globalStyle.match(/^{{.+}}$/))
+    addGlobalStyle(globalStyle);
 
   // go to this function's definition in `example.ts` for an example on how to import HTML, CSS and markdown
   insertExampleElements();

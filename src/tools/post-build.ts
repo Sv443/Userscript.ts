@@ -3,7 +3,7 @@ import { join, relative } from "path";
 import { exec } from "child_process";
 import dotenv from "dotenv";
 
-import webpackCfg from "../../webpack.config.js";
+import { output as webpackCfgOutput } from "../../webpack.config.js";
 import pkg from "../../package.json" assert { type: "json" };
 
 const { env, exit } = process;
@@ -37,10 +37,11 @@ const injectBuildNbr = true;
  */
 const ringBell = env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_BELL.trim().toLowerCase() !== "false");
 
+const mode = process.argv.find((v) => v.trim().match(/^(--)?mode=production$/)) ? "production" : "development";
 
-const userscriptDistFile = webpackCfg.output.filename;
-const distFolderPath = webpackCfg.output.path;
-const scriptUrl = `https://raw.githubusercontent.com/${repo}/main/dist/${userscriptDistFile}`;
+const userscriptDistFile = webpackCfgOutput.filename;
+const distFolderPath = webpackCfgOutput.path;
+const scriptUrl = `https://raw.githubusercontent.com/${repo}/main/dist/${encodeURI(userscriptDistFile)}`;
 const matchDirectives = matchUrls.reduce((a, c) => a + `// @match           ${c}\n`, "");
 
 /** See https://wiki.greasespot.net/Metadata_Block */
@@ -81,7 +82,7 @@ ${matchDirectives}\
     // const rootPath = join(dirname(fileURLToPath(import.meta.url)), "../../");
     const lastCommitSha = injectBuildNbr ? await getLastCommitSha() : undefined;
     const scriptPath = join(distFolderPath, userscriptDistFile);
-    const globalStylePath = join(distFolderPath, "main.css");
+    const globalStylePath = join(distFolderPath, "global.css");
     const globalStyle = await exists(globalStylePath) ? String(await readFile(globalStylePath)).replace(/\n\s*\/\*.+\*\//gm, "") : undefined;
 
     // read userscript
@@ -100,12 +101,12 @@ ${matchDirectives}\
     // overwrite with finished userscript
     await writeFile(scriptPath, finalUserscript);
 
-    const envText = env.NODE_ENV === "production" ? "\x1b[32mproduction" : "\x1b[33mdevelopment";
+    const modeText = `${mode === "production" ? "\x1b[32m" : "\x1b[33m"}${mode}`;
     const sizeKiB = (Buffer.byteLength(finalUserscript, "utf8") / 1024).toFixed(2);
 
-    console.info(`Successfully built for ${envText}\x1b[0m`);
+    console.info(`\nSuccessfully built for ${modeText}\x1b[0m`);
     lastCommitSha && console.info(`Build number (last commit SHA): \x1b[34m${lastCommitSha}\x1b[0m`);
-    console.info(`Outputted file '${relative("./", scriptPath)}' with a size of \x1b[32m${sizeKiB} KiB\x1b[0m\n`);
+    console.info(`Outputted file '${encodeURI(relative("./", scriptPath))}' with a size of \x1b[32m${sizeKiB} KiB\x1b[0m\n`);
 
     ringBell && process.stdout.write("\u0007");
 
