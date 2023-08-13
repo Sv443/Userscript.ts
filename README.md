@@ -29,8 +29,9 @@ Like this template? Please consider [supporting the development ❤️](https://
 4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved"
 5. Modify the userscript header and variables at the top of `src/tools/post-build.ts` to whatever your heart desires (see [reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
-7. Hook your own initialization functions in `init()` and `onDomLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
-8. Refer to [commands](#commands) and [development](#development-tips-and-notes)
+7. Add your own initialization functions to `init()` and `onLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
+8. Remove the example HTML, CSS and TS files
+9. Refer to [commands](#commands) and [development](#development-tips-and-notes)
 
 <br>
 
