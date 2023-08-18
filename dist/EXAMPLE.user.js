@@ -30,7 +30,7 @@ function e() {
     function() {
       const e = document.createElement("div");
       e.innerHTML = '\x3c!--\n## 0.2.0\n- ...\n\n<br>\n--\x3e <h2 id="010">0.1.0</h2> <ul> <li>Added base template</li> </ul> ', document.body.appendChild(e);
-      const n = document.querySelector("#some-random-element");
+      const n = document.querySelector("div");
       n && (n.innerHTML = '<div id="my-example-element"> You may import any HTML file in code and it will automatically be converted to an HTML string. Using it is as easy as creating an element and assigning its innerHTML this string. </div> ')
     }()
 }

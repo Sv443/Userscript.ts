@@ -16,8 +16,8 @@ export function insertExampleElements() {
   changelogElement.innerHTML = changelogContent;
   document.body.appendChild(changelogElement);
 
-  // insert the contents of example.html into an element with the ID "some-random-element"
-  const randomElement = document.querySelector("#some-random-element");
+  // replace the content of the first div found in the document with the contents of example.html
+  const randomElement = document.querySelector("div");
   if(randomElement)
     randomElement.innerHTML = exampleContent;
 }

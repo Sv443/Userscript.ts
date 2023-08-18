@@ -20,7 +20,8 @@ const repo = "Sv443/Userscript.ts";
  * See https://wiki.greasespot.net/Metadata_Block#%40match
  */
 const matchUrls = [
-  "https://example.org/*", "https://example.com/*"
+  "https://example.org/*",
+  "https://example.com/*",
 ];
 /**
  * URL to the icon of the userscript.  

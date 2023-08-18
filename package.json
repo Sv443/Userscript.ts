@@ -1,8 +1,8 @@
 {
   "name": "userscript.ts",
+  "version": "0.1.0",
   "userscriptName": "CHANGE_ME",
   "userscriptName:de": "REMOVE_IF_NOT_NEEDED (example for localization - see also src/tools/post-build.ts)",
-  "version": "0.1.0",
   "description": "CHANGE_ME_TOO",
   "description:de": "REMOVE_IF_NOT_NEEDED (example for localization - see also src/tools/post-build.ts)",
   "homepage": "https://github.com/Sv443/Userscript.ts",

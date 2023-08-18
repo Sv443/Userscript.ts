@@ -1,5 +1,5 @@
-import { insertExampleElements } from "./example";
 import { addGlobalStyle } from "@sv443-network/userutils";
+import { insertExampleElements } from "./example";
 
 /**
  * Called whenever the script is initialized, depending on the value of `@run-at` inside the userscript header.  

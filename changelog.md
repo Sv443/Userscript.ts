@@ -6,4 +6,4 @@
 -->
 
 ## 0.1.0
-- Added base template
+- Initial release
