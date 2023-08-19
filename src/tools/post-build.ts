@@ -50,19 +50,16 @@ const devServerPort = isNaN(envPort) || envPort === 0 ? 8710 : envPort;
 const header = `\
 // ==UserScript==
 // @name            ${pkg.userscriptName}
-// @homepageURL     ${pkg.homepage}#readme
-// @namespace       ${pkg.homepage}
-// @version         ${pkg.version}
 // @description     ${pkg.description}
+// @version         ${pkg.version}
+// @namespace       ${pkg.homepage}
+// @homepageURL     ${pkg.homepage}#readme
 // @license         ${pkg.license}
 // @author          ${pkg.author.name}
 // @copyright       ${pkg.author.name} (${pkg.author.url})
 // @icon            ${iconUrl}
 // @run-at          document-start
 ${matchDirectives}\
-// @connect         self
-// @connect         github.com
-// @connect         githubusercontent.com
 // @downloadURL     ${scriptUrl}
 // @updateURL       ${scriptUrl}
 // ==/UserScript==
@@ -70,13 +67,20 @@ ${matchDirectives}\
 
 // other directives you might want to add:
 
-// for help with localization, see https://wiki.greasespot.net/Metadata_Block#@name
+// localized name and description, see https://wiki.greasespot.net/Metadata_Block#@name
 // @name:de         ${pkg["userscriptName:de"]}
 // @description:de  ${pkg["description:de"]}
 
 // set and read persistent values
 // @grant           GM.setValue
 // @grant           GM.getValue
+
+// don't run inside iframes
+// @noframes
+
+// pre-cache resources for use with GM.getResourceUrl(), see https://wiki.greasespot.net/GM.getResourceUrl
+// @resource        myimage https://example.org/myimage.png
+// @resource        mytext https://example.org/something.txt
 
 
 (async () => {
