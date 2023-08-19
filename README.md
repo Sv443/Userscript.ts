@@ -27,7 +27,7 @@ Like this template? Please consider [supporting the development ❤️](https://
 2. Inside `package.json`, update the properties `name`, `userscriptName`, `description`, `homepage`, `author`, `license` and `repository.url`
 3. Replace the icon at `assets/icon.png` with your own or use [Google's or DuckDuckGo's favicon API](https://codepen.io/djekl/pen/QWKNNjv) in the userscript header
 4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved"
-5. Modify the userscript header and variables at the top of `src/tools/post-build.ts` to whatever your heart desires (see [reference](https://wiki.greasespot.net/Metadata_Block))
+5. Modify the variables and userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
 7. Add your own initialization functions to `init()` and `onLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
 8. Remove the example HTML, CSS and TS files

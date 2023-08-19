@@ -33,9 +33,7 @@ const iconUrl = `https://raw.githubusercontent.com/${repo}/main/assets/icon.png`
  * See `index.ts` for an example.
  */
 const injectBuildNbr = true;
-/**
- * Whether to trigger the bell sound in some terminals when the code has finished compiling
- */
+/** Whether to trigger the bell sound in some terminals when the code has finished compiling */
 const ringBell = env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_BELL.trim().toLowerCase() !== "false");
 
 const mode = process.argv.find((v) => v.trim().match(/^(--)?mode=production$/)) ? "production" : "development";
@@ -44,6 +42,9 @@ const userscriptDistFile = webpackCfgOutput.filename;
 const distFolderPath = webpackCfgOutput.path;
 const scriptUrl = `https://raw.githubusercontent.com/${repo}/main/dist/${encodeURI(userscriptDistFile)}`;
 const matchDirectives = matchUrls.reduce((a, c) => a + `// @match           ${c}\n`, "");
+
+const envPort = Number(env.DEV_SERVER_PORT);
+const devServerPort = isNaN(envPort) || envPort === 0 ? 8710 : envPort;
 
 /** See https://wiki.greasespot.net/Metadata_Block */
 const header = `\
@@ -87,21 +88,27 @@ ${matchDirectives}\
     const globalStyle = await exists(globalStylePath) ? String(await readFile(globalStylePath)).replace(/\n\s*\/\*.+\*\//gm, "") : undefined;
 
     // read userscript
-    const userscriptRaw = String(await readFile(scriptPath));
+    let userscript = String(await readFile(scriptPath));
 
     // inject values if found
-    let userscript = userscriptRaw;
-
     if(globalStyle)
       userscript = userscript.replace(/"{{GLOBAL_STYLE}}"/gm, `\`${globalStyle}\``);
     if(lastCommitSha)
       userscript = userscript.replace(/\/?\*?{{BUILD_NUMBER}}\*?\/?/gm, lastCommitSha);
 
+    // remove sourcemap comments in prod or replace them with the dev server URL in dev
+    if(mode === "production")
+      userscript = removeSourcemapComments(userscript);
+    else
+      userscript = userscript.replace(/sourceMappingURL=/gm, `sourceMappingURL=http://localhost:${devServerPort}/`);
+
+    // add userscript header and final newline
     const finalUserscript = `${header}\n${userscript}${userscript.endsWith("\n") ? "" : "\n"}`;
 
-    // overwrite with finished userscript
+    // overwrite file with finished userscript
     await writeFile(scriptPath, finalUserscript);
 
+    // print stuff to the console
     const modeText = `${mode === "production" ? "\x1b[32m" : "\x1b[33m"}${mode}`;
     const sizeKiB = (Buffer.byteLength(finalUserscript, "utf8") / 1024).toFixed(2);
 
@@ -115,8 +122,7 @@ ${matchDirectives}\
     setImmediate(() => exit(0));
   }
   catch(err) {
-    console.error("Error while adding userscript header:");
-    console.error(err);
+    console.error("Error while adding userscript header:\n", err);
 
     // schedule exit after I/O finishes
     setImmediate(() => exit(1));
@@ -143,12 +149,17 @@ async function exists(path: string) {
  */
 function getLastCommitSha() {
   return new Promise<string>((res, rej) => {
-    exec("git rev-parse HEAD", (err, stdout, stderr) => {
+    exec("git rev-parse --short HEAD", (err, stdout, stderr) => {
       if(err) {
-        console.error("\x1b[31mError while checking for last Git commit. Do you have Git installed?\x1b[0m\n", stderr);
+        console.error("\x1b[31mError while checking for last Git commit.\nDo you have Git installed and is there at least one commit in the history?\x1b[0m\n", stderr);
         return rej(err);
       }
-      return res(String(stdout).replace(/\r?\n/gm, "").trim().substring(0, 7));
+      return res(String(stdout).replace(/\r?\n/gm, "").trim());
     });
   });
+}
+
+/** Removes all sourcemap comments so the console isn't spammed with warnings */
+function removeSourcemapComments(input: string) {
+  return input.replace(/\n\s*\/(\*|\/)\s?#.+(\*\/)?$/gm, "");
 }
