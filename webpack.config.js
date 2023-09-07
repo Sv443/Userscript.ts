@@ -31,10 +31,12 @@ const getConfig = (env) => {
     entry: "./src/index.ts",
     output,
     mode,
+    target: "web",
     experiments: {
       outputModule: true,
     },
     optimization: {
+      moduleIds: "named",
       // since sites like greasyfork don't allow minified userscripts:
       minimize: false,
       minimizer: [
