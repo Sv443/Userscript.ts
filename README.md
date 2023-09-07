@@ -2,7 +2,7 @@
 
 <h1><img alt="icon" src="./assets/icon.png"><br>Userscript.ts</h1>
 
-Typescript ESM template for making [userscripts](https://en.wikipedia.org/wiki/Userscript) that supports importing, parsing and minifying HTML, CSS, Markdown and misc. files directly in code, packing it all up with webpack and applying custom injections for the userscript header and more.  
+Typescript ESM template for making [userscripts](https://en.wikipedia.org/wiki/Userscript) that supports importing and parsing HTML, CSS, Markdown and misc. files directly in code, packing it all up with webpack and applying custom injections for the userscript header and more.  
 It also offers ESLint to lint and auto-fix the code and GitHub Actions with ESLint to lint the code in pull requests and CodeQL to check it for vulnerabilities on every push.  
   
 Like this template? Please consider [supporting the development ❤️](https://github.com/sponsors/Sv443)
@@ -52,12 +52,16 @@ Like this template? Please consider [supporting the development ❤️](https://
   This makes it so the userscript automatically updates when the code changes (reloading the website is still necessary).  
   Note: the tab needs to stay open on Firefox or the script won't keep updating itself.
 - My library [UserUtils](https://github.com/Sv443-Network/UserUtils) is already included as a dependency. It offers lots of utilities for userscripts like registering listeners for when CSS selectors exist, intercepting events, managing persistent user configurations, modifying the DOM more easily, various math and array functions and more. You can find the full list of features and its documentation [here.](https://github.com/Sv443-Network/UserUtils#table-of-contents)
+- Libraries that are required at runtime should be declared inside `dependencies.json`, as long as they are hosted on a CDN and expose a global variable.  
+  This way, they will be loaded using the `@require` directive and will be exempt from [minification rules](https://greasyfork.org/en/help/code-rules) on platforms like GreasyFork.  
+  You may use a service like [jsDelivr](https://www.jsdelivr.com/) to include any npm library this way.  
+  You will still be able to import and use the libraries as usual in your code.
 - The final bundled userscript file in the `dist/` folder should be committed and pushed to GitHub.  
   This way, the `@downloadURL` and `@updateURL` directives make it so the script is automatically updated from that same file.  
   For this to work properly, don't forget to bump the version in `package.json` before building, so that every user of your userscript may receive the update.
 - The name of the emitted bundle inside `dist/` is bound to `userscriptName` in `package.json`  
   You may want to hard-code it or create a separate property for it if the userscript name contains characters that aren't allowed in a file path.
-- If you want other people to use your userscript, I recommend publishing it to [GreasyFork](https://greasyfork.org) and/or [OpenUserJS](https://openuserjs.org)  
+- If you want other people to use your userscript, I recommend publishing it to [GreasyFork](https://greasyfork.org) and/or [OpenUserJS.](https://openuserjs.org)  
   Make sure to check out and follow their rules and guidelines before publishing.
 - Use an IDE like [VS Code](https://code.visualstudio.com/) so Intellisense and Typescript can work together to give you really awesome code completion and warn you about potential runtime errors before you even build the code.
 - If you are using VS Code, install the ESLint extension ([`dbaeumer.vscode-eslint`](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)) and bind a hotkey for the `ESLint: Fix all auto-fixable problems` command so you can quickly format the currently active file according to the rules in `.eslintrc.cjs`

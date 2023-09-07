@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 import pkg from "./package.json" assert { type: "json" };
+import deps from "./dependencies.json" assert { type: "json" };
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const silent = true;
 /** If no "mode" argument is passed to the webpack command, the value of NODE_ENV or "development" is used as a fallback */
 const defaultMode = ["development", "production"].includes(process.env.NODE_ENV) ? String(process.env.NODE_ENV) : "development";
 
-const output = {
+export const output = {
   filename: `${pkg.userscriptName}.user.js`,
   path: resolve("./dist"),
   clean: true,
@@ -23,8 +24,14 @@ const output = {
 };
 
 /** @param {({ "mode": boolean })} env */
-const getConfig = (env) => {
+export default (env) => {
   const mode = env.mode ?? defaultMode;
+
+  const externals = Object.entries(deps)
+    .reduce((acc, [name, value]) => {
+      acc[name] = value.global;
+      return acc;
+    }, {});
 
   /** @type {import("webpack-cli").WebpackConfiguration} */
   const cfg = {
@@ -35,6 +42,8 @@ const getConfig = (env) => {
     experiments: {
       outputModule: true,
     },
+    externalsType: "var",
+    externals,
     optimization: {
       moduleIds: "named",
       // since sites like greasyfork don't allow minified userscripts:
@@ -87,11 +96,6 @@ const getConfig = (env) => {
         ".ts",
         ".tsx",
         ".js",
-        ".css",
-        // ".scss", // uncomment when using sass-loader
-        ".md",
-        ".htm",
-        ".html",
       ],
     },
     // enable sourcemaps if NODE_ENV === "development"
@@ -120,6 +124,3 @@ const getConfig = (env) => {
   };
   return cfg;
 };
-
-export default getConfig;
-export { output };

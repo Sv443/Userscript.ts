@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import { output as webpackCfgOutput } from "../../webpack.config.js";
 import pkg from "../../package.json" assert { type: "json" };
+import deps from "../../dependencies.json" assert { type: "json" };
 
 const { env, exit } = process;
 dotenv.config();
@@ -15,6 +16,10 @@ dotenv.config();
  * Don't add slashes at the beginning or end!
  */
 const repo = "Sv443/Userscript.ts";
+/**
+ * Name of the branch to use for the download and update URLs (release branch, so to speak).
+ */
+const branch = "main";
 /**
  * Which URLs should the userscript be active on?  
  * See https://wiki.greasespot.net/Metadata_Block#%40match
@@ -33,18 +38,20 @@ const iconUrl = `https://raw.githubusercontent.com/${repo}/main/assets/icon.png`
  * See `index.ts` for an example.
  */
 const injectBuildNbr = true;
-/** Whether to trigger the bell sound in some terminals when the code has finished compiling */
-const ringBell = env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_BELL.trim().toLowerCase() !== "false");
 
+const ringBell = env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_BELL.trim().toLowerCase() !== "false");
 const mode = process.argv.find((v) => v.trim().match(/^(--)?mode=production$/)) ? "production" : "development";
 
 const userscriptDistFile = webpackCfgOutput.filename;
 const distFolderPath = webpackCfgOutput.path;
-const scriptUrl = `https://raw.githubusercontent.com/${repo}/main/dist/${encodeURI(userscriptDistFile)}`;
+const scriptUrl = `https://raw.githubusercontent.com/${repo}/${branch}/dist/${encodeURI(userscriptDistFile)}`;
+
 const matchDirectives = matchUrls.reduce((a, c) => a + `// @match           ${c}\n`, "");
+const requireDirectives = Object.entries(deps).reduce((a, [, { url }]) => a + `// @require         ${url}\n`, "");
 
 const envPort = Number(env.DEV_SERVER_PORT);
 const devServerPort = isNaN(envPort) || envPort === 0 ? 8710 : envPort;
+
 
 /** See https://wiki.greasespot.net/Metadata_Block */
 const header = `\
@@ -60,6 +67,7 @@ const header = `\
 // @icon            ${iconUrl}
 // @run-at          document-start
 ${matchDirectives}\
+${requireDirectives}\
 // @downloadURL     ${scriptUrl}
 // @updateURL       ${scriptUrl}
 // ==/UserScript==
@@ -89,7 +97,9 @@ ${matchDirectives}\
     const lastCommitSha = injectBuildNbr ? await getLastCommitSha() : undefined;
     const scriptPath = join(distFolderPath, userscriptDistFile);
     const globalStylePath = join(distFolderPath, "global.css");
-    const globalStyle = await exists(globalStylePath) ? String(await readFile(globalStylePath)).replace(/\n\s*\/\*.+\*\//gm, "") : undefined;
+    const globalStyle = await exists(globalStylePath)
+      ? String(await readFile(globalStylePath)).replace(/\n\s*\/\*.+\*\//gm, "")
+      : undefined;
 
     // read userscript
     let userscript = String(await readFile(scriptPath));
