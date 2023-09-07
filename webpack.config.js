@@ -12,6 +12,7 @@ dotenv.config();
 /** Set to true to suppress all webpack output but errors */
 const silent = true;
 
+/** If no "mode" argument is passed to the webpack command, the value of NODE_ENV or "development" is used as a fallback */
 const defaultMode = ["development", "production"].includes(process.env.NODE_ENV) ? String(process.env.NODE_ENV) : "development";
 
 const output = {
@@ -21,10 +22,11 @@ const output = {
   module: true,
 };
 
-/** @param {import("./src/types").WebpackEnv} env */
+/** @param {({ "mode": boolean })} env */
 const getConfig = (env) => {
   const mode = env.mode ?? defaultMode;
-  /** @type {import("webpack-cli").ConfigOptions} */
+
+  /** @type {import("webpack-cli").WebpackConfiguration} */
   const cfg = {
     entry: "./src/index.ts",
     output,
@@ -32,15 +34,23 @@ const getConfig = (env) => {
     experiments: {
       outputModule: true,
     },
+    optimization: {
+      // since sites like greasyfork don't allow minified userscripts:
+      minimize: false,
+      minimizer: [
+        `...`,
+        new CssMinimizerPlugin(),
+      ],
+    },
     module: {
       rules: [
         {
-          test: /\.tsx?$/i,
+          test: /\.(ts|tsx)$/i,
           use: "ts-loader",
           exclude: /node_modules/,
         },
         {
-          test: /\.html?$/i,
+          test: /\.(htm|html)$/i,
           loader: "html-loader",
         },
         {
@@ -56,13 +66,14 @@ const getConfig = (env) => {
         },
         {
           test: /\.css$/i,
+          // test: /\.(scss|css)$/i, // replace above with this when using sass-loader
           use: [
             MiniCssExtractPlugin.loader,
             { loader: "css-loader" },
-            // { loader: "sass-loader" }, // if you want to be able to import .scss files (install with `npm i -D sass-loader` first)
+            // { loader: "sass-loader" }, // uncomment if you want to be able to import and compile .scss files (also install with `npm i -D sass-loader`)
           ],
         },
-        // import any file as a string (install with `npm i -D raw-loader` first):
+        // uncomment to import any file as a string (install with `npm i -D raw-loader`):
         // {
         //   test: /\.txt$/i,
         //   use: "raw-loader",
@@ -72,31 +83,28 @@ const getConfig = (env) => {
     resolve: {
       extensions: [
         ".ts",
+        ".tsx",
         ".js",
         ".css",
-        // ".scss",
+        // ".scss", // uncomment when using sass-loader
         ".md",
+        ".htm",
+        ".html",
       ],
     },
     // enable sourcemaps if NODE_ENV === "development"
     ...(mode === "development" ? { devtool: "source-map" } : {}),
     ...(silent ? { stats: "errors-only", } : {}),
-    optimization: {
-      minimizer: [
-        `...`,
-        new CssMinimizerPlugin(),
-      ],
-    },
     plugins: [
       new MiniCssExtractPlugin({
         // name of the emitted css bundle
-        // if this is changed, globalStylePath in post-build.ts must be changed too
+        // if this is changed, the value of globalStylePath in post-build.ts must be changed too
         filename: "global.css",
       }),
       {
         apply: (compiler) => {
-          console.log("Running post-build script...");
           compiler.hooks.afterEmit.tap("AfterEmitPlugin", () => {
+            console.log("Running post-build script...");
             exec(`npm run --silent post-build -- mode=${env.mode ?? defaultMode}`, (err, stdout, stderr) => {
               if(err)
                 console.error(`\x1b[31mError while calling post-build script:\x1b[0m\n${err}`);
