@@ -2,7 +2,7 @@
   "name": "#REPLACE:packagename",
   "userscriptName": "#REPLACE:Userscript Name",
   "version": "1.0.0",
-  "description": "",
+  "description": "#REPLACE:Userscript Description",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -30,7 +30,7 @@
     "name": "#REPLACE:Author name",
     "url": "#REPLACE:Author URL"
   },
-  "license": "MIT",
+  "license": "WTFPL",
   "bugs": {
     "url": "https://github.com/#REPLACE:User/Repo/issues"
   },
