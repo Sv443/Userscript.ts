@@ -31,7 +31,7 @@ export const sessionStorageAllowed =
   typeof sessionStorage?.setItem !== "undefined"
   && (() => {
     try {
-      const key = `_bytm_test_${randomId(4)}`;
+      const key = `_ses_test_${randomId(4)}`;
       sessionStorage.setItem(key, "test");
       sessionStorage.removeItem(key);
       return true;

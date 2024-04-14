@@ -99,6 +99,6 @@ export function addStyle(css: string, ref?: string) {
   if(!domLoaded)
     throw new Error("DOM has not finished loading yet");
   const elem = addGlobalStyle(css);
-  elem.id = `bytm-global-style-${ref ?? randomId(5, 36)}`;
+  elem.id = `global-style-${ref ?? randomId(5, 36)}`;
   return elem;
 }
