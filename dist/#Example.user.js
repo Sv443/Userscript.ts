@@ -5,7 +5,7 @@
 // @description       #REPLACE:Userscript Description
 // @homepageURL       https://github.com/#REPLACE:User/Repo#readme#readme
 // @supportURL        https://github.com/#REPLACE:User/Repo/issues
-// @license           MIT
+// @license           WTFPL
 // @author            #REPLACE:Author name
 // @copyright         #REPLACE:Author name (#REPLACE:Author URL)
 // @icon              https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/assets/images/logo_48.png?b=3f6dd30
