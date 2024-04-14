@@ -5,8 +5,10 @@
     "target": "ES2016",
     "outDir": "dist/out",
     "lib": [
+      "ES5",
+      "ES6",
       "DOM",
-      "DOM.Iterable",
+      "DOM.Iterable"
     ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +22,7 @@
     "sourceMap": true,
     "strict": true,
     "useDefineForClassFields": true,
+    "noImplicitThis": false,
   },
   "ts-node": {
     "esm": true,
@@ -29,11 +32,4 @@
     "**/*.js",
     "dist/**",
   ],
-  "typeAcquisition": {
-    "enable": true,
-    "include": [
-      "types.d.ts",
-    ],
-  },
 }
-  

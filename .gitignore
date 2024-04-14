@@ -1,8 +1,4 @@
 .env
-test.js
-test.ts
-
 node_modules/
-dist/*.map
-dist/out/
-dist/*.css
+dist/
+!dist/*.user.js

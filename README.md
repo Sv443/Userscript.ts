@@ -2,8 +2,10 @@
 
 <h1><img alt="icon" src="./assets/icon.png"><br>Userscript.ts</h1>
 
-Typescript ESM template for making [userscripts](https://en.wikipedia.org/wiki/Userscript) that supports importing and parsing HTML, CSS, Markdown and misc. files directly in code, packing it all up with webpack and applying custom injections for the userscript header and more.  
+Extensive Typescript ESNext template and boilerplate for [userscripts](https://en.wikipedia.org/wiki/Userscript).  
+Supports importing and parsing HTML and Markdown files directly in code, packing it all up with rollup and applying custom injections for the userscript header and more.  
 It also offers ESLint to lint and auto-fix the code and GitHub Actions with ESLint to lint the code in pull requests and CodeQL to check it for vulnerabilities on every push.  
+Intended to be used in conjunction with a Git repo as a resource CDN and build versioning system for the userscript.  
   
 Like this template? Please consider [supporting the development ❤️](https://github.com/sponsors/Sv443)
 
@@ -24,26 +26,99 @@ Like this template? Please consider [supporting the development ❤️](https://
 
 ## First steps:
 1. Copy `.env.template` to `.env` and change the values inside if needed
-2. Inside `package.json`, update the properties `name`, `userscriptName`, `description`, `homepage`, `author`, `license` and `repository.url`
+2. Search for `#REPLACE:` with your IDE in the entire project and replace all placeholders with your own values
 3. Replace the icon at `assets/icon.png` with your own or use [Google's or DuckDuckGo's favicon API](https://codepen.io/djekl/pen/QWKNNjv) in the userscript header
 4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved"
-5. Modify the variables and userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
+5. Modify the userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
-7. Add your own initialization functions to `init()` and `onLoad()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
-8. Remove the example HTML, CSS and TS files
-9. Refer to [commands](#commands) and [development](#development-tips-and-notes)
+7. Add your own initialization functions to `init()` and `run()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
+8. Refer to the sections [project structure](#project-structure), [commands](#commands) and [development](#development-tips-and-notes) next
+
+<br>
+
+## Project structure:
+- **`assets/`**  
+  Contains all the assets that are used in the userscript, like images, stylesheets, and any other misc files.
+  - **`assets/require.json`**  
+    Contains a list of all modules that should be loaded using the `@require` directive.  
+    Props:  
+    - `pkgName` (required) - The npm name of the package
+    - `baseUrl` - The base URL of the CDN to load from (defaults to `https://cdn.jsdelivr.net/npm/`)
+    - `path` - The path to the file inside the package (uses jsdelivr's standard path by default)
+  - **`assets/resources.json`**  
+    Contains a list of all resources that should be loaded using the `@resource` directive.  
+    This is useful for loading files like stylesheets, images, and other assets that should not be included in the code bundle, but loaded in and cached by the userscript extension.  
+    The object's key is used with the `getResourceUrl()` function in `src/utils.ts` to get the URL of the resource. The value is the path to the file inside the `assets/` folder.  
+    If the path starts with a slash, it will be resolved relative to the root of the project (where the `package.json` file is located).
+- **`src/`**  
+  Contains all the source files for the userscript.  
+  - **`src/tools/`**  
+    Contains all scripts that are used in the build process.  
+    - **`src/tools/post-build.ts`**  
+      Contains the post-build script that is run after the userscript is built.  
+      This script inserts the userscript header and other custom injections into the final userscript file.  
+      If you need to modify userscript directives or add custom injections, this is the place to do it.
+    - **`src/tools/serve.ts`**  
+      Contains the development server that serves the userscript on port 8710 (by default).
+  - **`src/index.ts`**  
+    The entrypoint for the userscript. This is where you should call your own code from.
+  - **`src/config.ts`**  
+    This file contains the DataStore instance that should be used to hold your userscript's configuration object.  
+    The DataStore class is really powerful and does a lot of the heavy lifting for you. More instances can also be created to hold different types of data that should be persisted between sessions.
+    For more info, please read the [DataStore documentation.](https://github.com/Sv443-Network/UserUtils#datastore)
+  - **`src/constants.ts`**  
+    Contains some constant variables that are used throughout the userscript's runtime code.  
+    This is where arguments are injected into the userscript's runtime code by `tools/post-build.ts`
+  - **`src/declarations.d.ts`**  
+    The declarations in this file allow you to import HTML and MD files directly in your code, using rollup plugins.
+  - **`src/observers.ts`**  
+    This file should be filled up with many `SelectorObserver` instances. These observe a designated part of the DOM for changes.  
+    With the function `addSelectorListener()`, you can then add a listener, given a specific CSS selector, that gets called when the selector has been found in the DOM.  
+    For more info, please read the [SelectorObserver documentation.](https://github.com/Sv443-Network/UserUtils#selectorobserver)
+  - **`src/types.ts`**  
+    Contains all generic TypeScript types that are used in multiple files.  
+  - **`src/utils.ts`**  
+    Contains utility functions that are used throughout the userscript's runtime code.  
+    This is where you should put functions that are used in multiple places in your code.  
+    Once it gets too big you should split it up into multiple files.
+
 
 <br>
 
 ## Commands:
-| Command | Description |
-| --- | --- |
-| `npm i` | Run once to install dependencies |
-| `npm run lint` | Lints the userscript with ESLint |
-| `npm run build-dev` | Builds the userscript in development mode (sourcemaps enabled) |
-| `npm run build-prod` | Builds the userscript in production mode (optimized code, sourcemaps disabled) |
-| `npm run dev` | Watches, rebuilds and serves the userscript so it can be updated live ([more info below](#development-tips-and-notes)) |
-<!-- first column uses non-breaking space U+00A0 (' ') -->
+- **`npm i`**  
+  Run once to install dependencies
+- **`npm run dev`**  
+  This is the command you want to use to locally develop and test your script.  
+  It watches for any changes, then rebuilds and serves the userscript on port 8710, so it can be updated live if set up correctly in the userscript manager (see [development tips](#development-tips-and-notes)).  
+  Once it has finished building, a link will be printed to the console. Open it to install the userscript.  
+  You can also configure request logging and more in `.env` and `src/tools/serve.ts`, just make sure to restart the dev server after changing anything.  
+- **`npm run build-prod`**  
+  Builds the userscript for production for all host platforms (GitHub, GreasyFork and OpenUserJS) with their respective options already set.  
+  Outputs the files using a suffix predefined in the `package.json` file.  
+  Use this to build the userscript for distribution on all hosts.
+- **`npm run build -- <arguments>`**  
+  Builds the userscript with custom options  
+  Arguments:  
+  - `--config-mode=<value>` - The mode to build in. Can be either `production` or `development` (default)
+  - `--config-branch=<value>` - The GitHub branch to target. Can be any branch name, but should be `main` for production and `develop` for development (default)
+  - `--config-host=<value>` - The host to build for. Can be either `github` (default), `greasyfork` or `openuserjs`
+  - `--config-assetSource=<value>` - Where to get the resource files from. Can be either `local` or `github` (default)
+  - `--config-suffix=<value>` - Suffix to add just before the `.user.js` extension. Defaults to an empty string
+    
+  Shorthand commands:
+  - `npm run build-prod-base` - Sets `--config-mode=production` and `--config-branch=main`  
+    Used for building for production, targeting the main branch
+  - `npm run build-develop` - Sets `--config-mode=development`, `--config-branch=develop` and `--config-assetSource=github`  
+    Used for building for experimental versions, targeting the develop branch
+- **`npm run lint`**  
+  Builds the userscript with the TypeScript compiler and lints it with ESLint. Doesn't verify *all* of the functionality of the script, only syntax and TypeScript errors!
+- **`npm run --silent invisible -- "<command>"`**  
+  Runs the passed command as a detached child process without giving any console output.  
+  Remove `--silent` to see npm's info and error messages.
+- **`npm run node-ts -- <path>`**  
+  Runs the TypeScript file at the given path using the regular node binary and the node-ts loader.  
+  Also enables source map support and disables experimental warnings.
 
 <br>
 
@@ -65,9 +140,8 @@ Like this template? Please consider [supporting the development ❤️](https://
   Make sure to check out and follow their rules and guidelines before publishing.
 - Use an IDE like [VS Code](https://code.visualstudio.com/) so Intellisense and Typescript can work together to give you really awesome code completion and warn you about potential runtime errors before you even build the code.
 - If you are using VS Code, install the ESLint extension ([`dbaeumer.vscode-eslint`](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)) and bind a hotkey for the `ESLint: Fix all auto-fixable problems` command so you can quickly format the currently active file according to the rules in `.eslintrc.cjs`
-- Try to get familiar with the [webpack config](https://webpack.js.org/configuration/) at `webpack.config.js`  
-  In there you may add and configure webpack plugins and configure the build process.
-- To see an example of how the code in `src/index.ts` will be packed in production mode, check out the file at [`dist/EXAMPLE.user.js`](./dist/EXAMPLE.user.js)
+- Try to get familiar with the [rollup config](https://rollupjs.org/configuration-options/) at `rollup.config.mjs`  
+  In there you may add and configure rollup plugins and configure the build process.
 
 <br><br><br>
 
@@ -76,6 +150,6 @@ Like this template? Please consider [supporting the development ❤️](https://
 Made with ❤️ by [Sv443](https://github.com/Sv443)  
 If you like this template, please consider [supporting me](https://github.com/sponsors/Sv443)  
   
-© 2023 Sv443 - [WTFPL license](./LICENSE.txt)
+© 2024 Sv443 - [WTFPL license](./LICENSE.txt)
 
 </div>
