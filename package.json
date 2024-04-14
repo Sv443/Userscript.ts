@@ -1,74 +1,79 @@
 {
-  "name": "userscript.ts",
-  "version": "0.1.0",
-  "userscriptName": "CHANGE_ME",
-  "userscriptName:de": "REMOVE_IF_NOT_NEEDED (example for localization - see also src/tools/post-build.ts)",
-  "description": "CHANGE_ME_TOO",
-  "description:de": "REMOVE_IF_NOT_NEEDED (example for localization - see also src/tools/post-build.ts)",
-  "homepage": "https://github.com/Sv443/Userscript.ts",
-  "main": "./src/index.ts",
+  "name": "packagename",
+  "userscriptName": "Userscript Name",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "npm run node-ts -- ./test.ts",
-    "build-prod": "cross-env NODE_OPTIONS=--no-warnings=ExperimentalWarning webpack --env mode=production",
-    "build-dev": "cross-env NODE_OPTIONS=--no-warnings=ExperimentalWarning webpack --env mode=development",
-    "post-build": "npm run node-ts --silent -- ./src/tools/post-build.ts",
-    "serve": "npm run node-ts --silent -- ./src/tools/serve.ts",
-    "dev": "concurrently \"nodemon --exec npm run build-dev --silent\" \"npm run serve\"",
+    "dev": "concurrently \"nodemon --exec npm run --silent build-watch\" \"npm run --silent serve\"",
+    "serve": "npm run node-ts -- ./src/tools/serve.ts",
     "lint": "tsc --noEmit && eslint .",
-    "node-ts": "node --no-warnings=ExperimentalWarning --enable-source-maps --loader ts-node/esm"
+    "build": "rollup -c",
+    "build-watch": "rollup -c --config-mode development --config-host github --config-branch main --config-assetSource=local",
+    "build-develop": "rollup -c --config-mode development --config-host github --config-branch main",
+    "build-prod": "npm run build-prod-gh && npm run build-prod-gf && npm run build-prod-oujs",
+    "build-prod-base": "rollup -c --config-mode production --config-branch main",
+    "build-prod-gh": "npm run build-prod-base -- --config-host github",
+    "build-prod-gf": "npm run build-prod-base -- --config-host greasyfork --config-suffix _gf",
+    "build-prod-oujs": "npm run build-prod-base -- --config-host openuserjs --config-suffix _oujs",
+    "post-build": "npm run node-ts -- ./src/tools/post-build.ts",
+    "node-ts": "node --no-warnings=ExperimentalWarning --enable-source-maps --loader ts-node/esm",
+    "invisible": "node --enable-source-maps src/tools/run-invisible.mjs",
+    "test": "npm run node-ts -- ./test.ts"
   },
-  "keywords": [
-    "userscript",
-    "template",
-    "typescript",
-    "webpack"
-  ],
-  "author": {
-    "name": "Sv443",
-    "url": "https://github.com/Sv443"
-  },
-  "license": "WTFPL",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sv443/Userscript.ts.git"
+    "url": "git+https://github.com/#REPLACE:User/Repo.git"
+  },
+  "author": {
+    "name": "#REPLACE:Author name",
+    "url": "#REPLACE:Author URL"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/#REPLACE:User/Repo/issues"
+  },
+  "homepage": "https://github.com/#REPLACE:User/Repo#readme",
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/express": "^4.17.21",
+    "@types/greasemonkey": "^4.0.7",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.6.0",
+    "@typescript-eslint/parser": "^7.6.0",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0",
+    "rollup": "^4.14.2",
+    "rollup-plugin-execute": "^1.1.1",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-import-css": "^3.5.0",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@sv443-network/userutils": "^1.0.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.17",
-    "@types/greasemonkey": "^4.0.4",
-    "@types/node": "^20.2.4",
-    "@typescript-eslint/eslint-plugin": "^5.59.8",
-    "@typescript-eslint/parser": "^5.59.7",
-    "concurrently": "^8.1.0",
-    "cross-env": "^7.0.3",
-    "css-loader": "^6.8.1",
-    "css-minimizer-webpack-plugin": "^5.0.0",
-    "dotenv": "^16.1.4",
-    "eslint": "^7.32.0",
-    "express": "^4.18.2",
-    "html-loader": "^4.2.0",
-    "markdown-loader": "^8.0.0",
-    "mini-css-extract-plugin": "^2.7.6",
-    "nodemon": "^3.0.1",
-    "ts-loader": "^9.4.3",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.5.2",
-    "typescript": "^5.0.4",
-    "webpack-cli": "^5.1.1"
+    "@sv443-network/userutils": "^6.3.0"
   },
   "nodemonConfig": {
     "watch": [
       "src/**",
-      "tools/**",
-      "webpack.config.js",
-      ".env"
+      "assets/**",
+      "rollup.config.mjs",
+      ".env",
+      "**/*.md",
+      "package.json"
     ],
-    "ext": "ts,js,json,html,css",
+    "ext": "ts,mts,js,jsx,mjs,json,html,css,svg,png",
     "ignore": [
-      "dist/**"
+      "dist/*",
+      "dev/*"
     ]
   }
 }

@@ -1,0 +1,8 @@
+[
+  {
+    "pkgName": "@sv443-network/userutils",
+    "path": "dist/index.global.js",
+    "global": "UserUtils"
+  }
+]
+  
