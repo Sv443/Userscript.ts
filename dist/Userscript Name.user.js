@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name              #Example
+// @name              Userscript Name
 // @namespace         https://github.com/#REPLACE:User/Repo#readme
 // @version           1.0.0
 // @description       #REPLACE:Userscript Description
@@ -8,11 +8,11 @@
 // @license           WTFPL
 // @author            #REPLACE:Author name
 // @copyright         #REPLACE:Author name (#REPLACE:Author URL)
-// @icon              https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/assets/images/logo_48.png?b=3f6dd30
+// @icon              https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/assets/images/logo_48.png?b=aab91c6
 // @match             #REPLACE:Match URL(s) - i.e. *://*.example.com/*
 // @run-at            document-start
-// @downloadURL       https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/dist/#Example.user.js
-// @updateURL         https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/dist/#Example.user.js
+// @downloadURL       https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/dist/Userscript Name.user.js
+// @updateURL         https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/dist/Userscript Name.user.js
 // @connect           github.com
 // @connect           raw.githubusercontent.com
 // @grant             GM.getValue
@@ -22,8 +22,8 @@
 // @grant             GM.xmlHttpRequest
 // @grant             GM.openInTab
 // @noframes
-// @resource          img-icon      https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/assets/images/icon.png?b=3f6dd30
-// @resource          doc-changelog https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/CHANGELOG.md?b=3f6dd30
+// @resource          img-icon      https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/assets/images/icon.png?b=aab91c6
+// @resource          doc-changelog https://raw.githubusercontent.com/#REPLACE:User/Repo/develop/CHANGELOG.md?b=aab91c6
 // @require           https://cdn.jsdelivr.net/npm/@sv443-network/userutils@6.3.0/dist/index.global.js
 // @grant             GM.registerMenuCommand
 // @grant             GM.listValues
@@ -59,7 +59,10 @@ function __awaiter(thisArg, _arguments, P, generator) {
 typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
     var e = new Error(message);
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};/** Default compression format used throughout the entire script */
+};const buildNumberRaw = "aab91c6";
+/** The build number of the userscript */
+const buildNumber = (buildNumberRaw.match(/^#{{.+}}$/) ? "BUILD_ERROR!" : buildNumberRaw); // asserted as generic string instead of literal
+/** Default compression format used throughout the entire script */
 const compressionFormat = "deflate-raw";
 /** Whether sessionStorage is available and working */
 typeof (sessionStorage === null || sessionStorage === void 0 ? void 0 : sessionStorage.setItem) !== "undefined"
@@ -75,11 +78,11 @@ typeof (sessionStorage === null || sessionStorage === void 0 ? void 0 : sessionS
         }
     })();
 /** Info about the userscript, parsed from the userscript header (tools/post-build.js) */
-({
+const scriptInfo = {
     name: GM.info.script.name,
     version: GM.info.script.version,
     namespace: GM.info.script.namespace,
-});let canCompress;
+};let canCompress;
 const config = new userutils.DataStore({
     id: "script-config",
     defaultData: {
@@ -173,6 +176,7 @@ function init() {
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log(`Initializing ${scriptInfo.name} v${scriptInfo.version} (#${buildNumber})...`);
             // post-build these double quotes are replaced by backticks (because if backticks are used here, the bundler converts them to double quotes)
             addStyle("#{{GLOBAL_STYLE}}", "global");
             initObservers();
@@ -183,4 +187,4 @@ function run() {
         }
     });
 }
-init();})(UserUtils);//# sourceMappingURL=http://localhost:8710/#Example.user.js.map
+init();})(UserUtils);//# sourceMappingURL=http://localhost:8710/Userscript Name.user.js.map
