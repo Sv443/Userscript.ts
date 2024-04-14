@@ -45,6 +45,7 @@ Like this template? Please consider [supporting the development ❤️](https://
     - `pkgName` (required) - The npm name of the package
     - `baseUrl` - The base URL of the CDN to load from (defaults to `https://cdn.jsdelivr.net/npm/`)
     - `path` - The path to the file inside the package (uses jsdelivr's standard path by default)
+    - `link` - Set this to `true` if you have linked this package locally using [`npm link`](https://docs.npmjs.com/cli/v8/commands/npm-link) and want to explicitly have the latest code included in the bundle.
   - **`assets/resources.json`**  
     Contains a list of all resources that should be loaded using the `@resource` directive.  
     This is useful for loading files like stylesheets, images, and other assets that should not be included in the code bundle, but loaded in and cached by the userscript extension.  
