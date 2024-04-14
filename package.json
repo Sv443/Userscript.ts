@@ -1,6 +1,6 @@
 {
-  "name": "packagename",
-  "userscriptName": "Userscript Name",
+  "name": "#REPLACE:packagename",
+  "userscriptName": "#REPLACE:Userscript Name",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
