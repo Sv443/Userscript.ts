@@ -96,7 +96,7 @@ const ringBell = Boolean(env.RING_BELL && (env.RING_BELL.length > 0 && env.RING_
 // @name              ${pkg.userscriptName}
 // @namespace         ${pkg.homepage}
 // @version           ${pkg.version}
-// @description       ${pkg.description}\
+// @description       ${pkg.description}
 // @homepageURL       ${pkg.homepage}#readme
 // @supportURL        ${pkg.bugs.url}
 // @license           ${pkg.license}
