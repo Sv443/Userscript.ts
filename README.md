@@ -32,7 +32,8 @@ Like this template? Please consider [supporting the development ❤️](https://
 5. Modify the userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
 7. Add your own initialization functions to `init()` and `run()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
-8. Refer to the sections [project structure](#project-structure), [commands](#commands) and [development](#development-tips-and-notes) next
+8. Refer to the sections [project structure](#project-structure), [commands](#commands) and [development](#development-tips-and-notes) next.  
+  If you need a real world example, you can take a look at my [BetterYTM](https://github.com/Sv443/BetterYTM) project, which this template is based on.
 
 <br>
 
