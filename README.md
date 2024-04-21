@@ -10,7 +10,7 @@ Intended to be used in conjunction with a Git repo as a resource CDN and build v
 Like this template? Please consider [supporting the development ❤️](https://github.com/sponsors/Sv443)
 
 ---
-#### [Installation](#installation) &bull; [First&nbsp;steps](#first-steps) &bull; [Commands](#commands) &bull; [Development&nbsp;tips&nbsp;&&nbsp;notes](#development-tips-and-notes)
+#### [Installation](#installation) &bull; [First&nbsp;steps](#first-steps) &bull; [Project&nbsp;Structure](#project-structure) &bull; [Commands](#commands) &bull; [Development&nbsp;tips&nbsp;&&nbsp;notes](#development-tips-and-notes)
 
 </div>
 <br>
