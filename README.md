@@ -67,7 +67,7 @@ Like this template? Please consider [supporting the development ❤️](https://
     The entrypoint for the userscript. This is where you should call your own code from.
   - **`src/config.ts`**  
     This file contains the DataStore instance that should be used to hold your userscript's configuration object.  
-    The DataStore class is really powerful and does a lot of the heavy lifting for you. More instances can also be created to hold different types of data that should be persisted between sessions.
+    The DataStore class is very powerful and does a lot of the heavy lifting for you. More instances can also be created to hold different types of data that should be persisted between sessions, cached in-memory for fast access and be tagged with a version number, so migration functions can be used to migrate the data to any upcoming format.  
     For more info, please read the [DataStore documentation.](https://github.com/Sv443-Network/UserUtils#datastore)
   - **`src/constants.ts`**  
     Contains some constant variables that are used throughout the userscript's runtime code.  
