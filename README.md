@@ -28,7 +28,7 @@ Like this template? Please consider [supporting the development ❤️](https://
 ## First steps:
 1. Copy `.env.template` to `.env` and change the values inside if needed
 2. Search for `#REPLACE:` with your IDE in the entire project and replace all placeholders with your own values
-3. Replace the icon at `assets/icon.png` with your own or use [Google's or DuckDuckGo's favicon API](https://codepen.io/djekl/pen/QWKNNjv) in the userscript header
+3. Replace the icon at `assets/icon.png` with your own or use [Google's or DuckDuckGo's favicon API](https://codepen.io/djekl/pen/QWKNNjv) in the userscript header (see step 5)
 4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved" (needs to be adjusted in the `license` field of `package.json` too!)
 5. Modify the userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
