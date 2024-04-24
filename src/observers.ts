@@ -47,8 +47,7 @@ export function initObservers() {
  * Interface function for adding listeners to the {@linkcode globservers}  
  * @param selector Relative to the observer's root element, so the selector can only start at of the root element's children at the earliest!
  * @param options Options for the listener
- * @template TElem The type of the element that the listener will be attached to. If set to `0`, the type HTMLElement will be used.
- * @template TDomain This restricts which observers are available with the current domain
+ * @template TElem The type of the element that the listener will be attached to. If set to `0`, the type HTMLElement will be used
  */
 export function addSelectorListener<
   TElem extends HTMLElement | 0,
