@@ -2,7 +2,7 @@
 
 <h1><img alt="icon" src="./assets/icon.png"><br>Userscript.ts</h1>
 
-Extensive Typescript ESNext template and boilerplate for [userscripts](https://en.wikipedia.org/wiki/Userscript).  
+Extensive Typescript ESNext template and boilerplate for [userscripts.](https://en.wikipedia.org/wiki/Userscript)  
 Supports importing and parsing HTML and Markdown files directly in code, packing it all up with rollup and applying custom injections for the userscript header and more.  
 It also offers ESLint to lint and auto-fix the code and GitHub Actions with ESLint to lint the code in pull requests and CodeQL to check it for vulnerabilities on every push.  
 Requires a Git repo to be used as the asset CDN and for the build versioning system of the userscript.  
