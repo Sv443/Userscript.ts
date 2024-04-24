@@ -129,11 +129,11 @@ Like this template? Please consider [supporting the development ❤️](https://
 - If you're using the [ViolentMonkey extension](https://violentmonkey.github.io/) (which I recommend), after running the command `npm run watch`, you may open the URL shown in the console in your browser and select the `Track local file` option in the installation dialog.  
   This makes it so the userscript automatically updates when the code changes (reloading the website is still necessary).  
   Note: the tab needs to stay open on Firefox or the script won't keep updating itself.
-- My library [UserUtils](https://github.com/Sv443-Network/UserUtils) is already included as a dependency. It offers lots of utilities for userscripts like registering listeners for when CSS selectors exist, intercepting events, managing persistent user configurations, modifying the DOM more easily, various math and array functions and more. You can find the full list of features and its documentation [here.](https://github.com/Sv443-Network/UserUtils#table-of-contents)
-- Libraries that are required at runtime should be declared inside `dependencies.json`, as long as they are hosted on a CDN and expose a global variable.  
+- My library [UserUtils](https://github.com/Sv443-Network/UserUtils) is already included as a dependency. It offers lots of utilities for userscripts like registering listeners for when CSS selectors exist, intercepting events, creating persistent JSON databases, modifying the DOM more easily, various math and array functions and more. You can find the full list of features and their documentation [here.](https://github.com/Sv443-Network/UserUtils#table-of-contents)
+- Libraries that are required at runtime should be declared inside `require.json`, as long as they are hosted on a CDN and expose a global variable.  
   This way, they will be loaded using the `@require` directive and will be exempt from [minification rules](https://greasyfork.org/en/help/code-rules) on platforms like GreasyFork.  
   You may use a service like [jsDelivr](https://www.jsdelivr.com/) to include any npm library this way.  
-  You will still be able to import and use the libraries as usual in your code.
+  You will still be able to import and use the libraries as usual in your code, the bundler will handle everything else.
 - The final bundled userscript file in the `dist/` folder should be committed and pushed to GitHub.  
   This way, the `@downloadURL` and `@updateURL` directives make it so the script is automatically updated from that same file.  
   For this to work properly, don't forget to bump the version in `package.json` before building, so that every user of your userscript may receive the update.
