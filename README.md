@@ -69,7 +69,7 @@ Like this template? Please consider [supporting the development ❤️](https://
   - **`src/config.ts`**  
     This file contains the DataStore instance that should be used to hold your userscript's configuration object.  
     The DataStore class is very powerful and does a lot of the heavy lifting for you. More instances can also be created to hold different types of data that should be persisted between sessions, cached in-memory for fast, synchronous access and be tagged with a version number, so migration functions can be used to migrate the data to any upcoming format.  
-    For more info, please read the [DataStore documentation.](https://github.com/Sv443-Network/UserUtils#datastore)
+    For more info, please read the [DataStore documentation.](https://github.com/Sv443-Network/UserUtils/blob/main/docs.md#datastore)
   - **`src/constants.ts`**  
     Contains some constant variables that are used throughout the userscript's runtime code.  
     This is where arguments are injected into the userscript's runtime code by `tools/post-build.ts`
@@ -78,7 +78,7 @@ Like this template? Please consider [supporting the development ❤️](https://
   - **`src/observers.ts`**  
     This file should be filled up with many `SelectorObserver` instances. These observe a designated part of the DOM for changes.  
     With the function `addSelectorListener()`, you can then add a listener, given a specific CSS selector, that gets called when the selector has been found in the DOM.  
-    For more info, please read the [SelectorObserver documentation.](https://github.com/Sv443-Network/UserUtils#selectorobserver)
+    For more info, please read the [SelectorObserver documentation.](https://github.com/Sv443-Network/UserUtils/blob/main/docs.md#selectorobserver)
   - **`src/types.ts`**  
     Contains all generic TypeScript types that are used in multiple files.  
   - **`src/utils.ts`**  
@@ -130,7 +130,7 @@ Like this template? Please consider [supporting the development ❤️](https://
 - If you're using the [ViolentMonkey extension](https://violentmonkey.github.io/) (which I recommend), after running the command `npm run watch`, you may open the URL shown in the console in your browser and select the `Track local file` option in the installation dialog.  
   This makes it so the userscript automatically updates when the code changes (reloading the website is still necessary).  
   Note: the tab needs to stay open on Firefox or the script won't keep updating itself.
-- My library [UserUtils](https://github.com/Sv443-Network/UserUtils) is already included as a dependency. It offers lots of utilities for userscripts like registering listeners for when CSS selectors exist, intercepting events, creating persistent JSON databases, modifying the DOM more easily, various math and array functions and more. You can find the full list of features and their documentation [here.](https://github.com/Sv443-Network/UserUtils#table-of-contents)
+- My library [UserUtils](https://github.com/Sv443-Network/UserUtils) is already included as a dependency. It offers lots of utilities for userscripts like registering listeners for when CSS selectors exist, intercepting events, creating persistent JSON databases, modifying the DOM more easily, various math and array functions and more. You can find the full list of features and their documentation [here.](https://github.com/Sv443-Network/UserUtils/blob/main/docs.md#table-of-contents)
 - Libraries that are required at runtime should be declared inside `require.json`, as long as they are hosted on a CDN and expose a global variable.  
   This way, they will be loaded using the `@require` directive and will be exempt from [minification rules](https://greasyfork.org/en/help/code-rules) on platforms like GreasyFork.  
   You may use a service like [jsDelivr](https://www.jsdelivr.com/) to include any npm library this way.  
