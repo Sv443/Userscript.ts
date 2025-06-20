@@ -29,12 +29,13 @@ Like this template? Please consider [supporting the development ❤️](https://
 1. Copy `.env.template` to `.env` and change the values inside if needed
 2. Search for `#REPLACE:` with your IDE in the entire project and replace all placeholders with your own values
 3. Replace the icon at `assets/icon.png` with your own or use [Google's or DuckDuckGo's favicon API](https://codepen.io/djekl/pen/QWKNNjv) in the userscript header (see step 5)
-4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved" (needs to be adjusted in the `license` field of `package.json` too!)
+4. Replace the LICENSE.txt file with your own license or remove it if you want your code to be "all rights reserved"  
+  The `license` prop of `package.json` needs to have its [SPDX identifier](https://spdx.org/licenses) adjusted too! (Set it to `"UNLICENSED"` in case of "all rights reserved")
 5. Modify the userscript header inside `src/tools/post-build.ts` to whatever you need (see also [GM header reference](https://wiki.greasespot.net/Metadata_Block))
 6. The eslint configuration at `.eslintrc.cjs` is what I use, feel free to remove rules if there are too many or modify them to your preferences
-7. Add your own initialization functions to `init()` and `run()` inside the entrypoint file at `src/index.ts` (read the comments for more info)
-8. Refer to the sections [project structure](#project-structure), [commands](#commands) and [development](#development-tips-and-notes) next.  
-  If you need a real world example, you can take a look at my [BetterYTM](https://github.com/Sv443/BetterYTM) project, which this template is based on.
+7. Refer to the entrypoints `init()` and `run()` inside the file `src/index.ts` for hooking up your own runtime code. Read the comments in said file for more info.
+8. Next, refer to the sections [project structure](#project-structure), [commands](#commands) and [development](#development-tips-and-notes).  
+  If you need a real world example, you can take a look at my [BetterYTM](https://github.com/Sv443/BetterYTM) project, which was the origin of this template.
 
 <br>
 
