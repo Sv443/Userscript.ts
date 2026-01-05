@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "description": "Contains all resources (images, fonts, stylesheets, etc.) used by the userscript.",
+  "additionalProperties": false,
+  "patternProperties": {
+    "^[a-z]+-[a-zA-Z0-9_-]+$": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Path to the resource file. If the path starts with a '/', it is considered relative to the project root; otherwise, it is relative to the assets folder."
+        },
+        {
+          "type": "object",
+          "description": "Resource with additional properties.",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Path to the resource file. If the path starts with a '/', it is considered relative to the project root; otherwise, it is relative to the assets folder."
+            },
+            "integrity": {
+              "type": "boolean",
+              "description": "Whether SRI (Subresource Integrity) should be enabled for this resource (on by default). This means the resource will fail to load if its content changed from when the userscript was built."
+            }
+          },
+          "required": ["path"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

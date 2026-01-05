@@ -24,6 +24,7 @@
   },
   "repository": {
     "type": "git",
+    "identifier": "#REPLACE:User/Repo",
     "url": "git+https://github.com/#REPLACE:User/Repo.git"
   },
   "author": {
@@ -35,6 +36,7 @@
     "url": "https://github.com/#REPLACE:User/Repo/issues"
   },
   "homepage": "https://github.com/#REPLACE:User/Repo#readme",
+  "namespace": "https://github.com/#REPLACE:User/Repo",
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -56,10 +58,14 @@
     "rollup-plugin-import-css": "^3.5.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vite": "^7.3.0",
+    "vite-plugin-monkey": "^7.1.8",
+    "vite-tsconfig-paths": "^6.0.3"
   },
   "dependencies": {
-    "@sv443-network/userutils": "^6.3.0"
+    "@sv443-network/coreutils": "^2.0.0",
+    "@sv443-network/userutils": "^9.4.4"
   },
   "nodemonConfig": {
     "watch": [

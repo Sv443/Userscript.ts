@@ -1,4 +1,8 @@
 {
+  "doc-changelog": {
+    "path": "/CHANGELOG.md",
+    "integrity": false
+  },
   "img-icon": "images/icon.png",
-  "doc-changelog": "/CHANGELOG.md"
+  "trans-en-US": "translations/en-US.json"
 }

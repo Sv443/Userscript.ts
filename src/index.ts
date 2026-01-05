@@ -1,7 +1,8 @@
-import { initConfig } from "./config";
-import { buildNumber, scriptInfo } from "./constants";
-import { initObservers } from "./observers";
-import { addStyle, domLoaded } from "./utils";
+import { initConfig } from "@/config";
+import { buildNumber, scriptInfo } from "@/constants";
+import { initObservers } from "@/observers";
+import { addStyle, domLoaded } from "@utils/dom";
+import "@/index.css";
 
 /** Runs when the userscript is loaded initially */
 async function init() {

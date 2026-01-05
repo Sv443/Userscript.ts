@@ -8,7 +8,7 @@ export type ObserverName =
 /** Options that are applied to every SelectorObserver instance */
 const defaultObserverOptions: SelectorObserverConstructorOptions = {
   defaultDebounce: 100,
-  defaultDebounceEdge: "rising",
+  defaultDebounceType: "immediate",
   subtree: false,
 };
 

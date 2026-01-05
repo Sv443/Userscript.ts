@@ -1,40 +1,31 @@
-import { DataStore, compress, decompress } from "@sv443-network/userutils";
-import { compressionFormat } from "./constants";
-import type { ScriptConfig } from "./types";
+import { DataStore } from "@sv443-network/coreutils";
+import { compressionFormat } from "@/constants.js";
+import type { ScriptConfig } from "@/types.js";
+import { GMStorageEngine } from "@utils/GMStorageEngine.js";
 
-let canCompress: boolean | undefined;
-
-export const config = new DataStore({
-  id: "script-config",
+export const configStore = new DataStore({
+  // unique ID used to identify this DataStore's data:
+  id: "config",
+  // add initial and default data here:
   defaultData: {
-    // add data here
+    // ...
   } satisfies ScriptConfig,
   // increment this value if the data format changes:
   formatVersion: 1,
+  // storage engine to use:
+  engine: () => new GMStorageEngine(),
   // functions that migrate data from older versions to newer ones:
   migrations: {
-    // migrate from v1 to v2:
+    // e.g. migration from v1 to v2:
     // 2: (oldData) => {
-    //   return { ...oldData, newProp: "foo" };
+    //   delete oldData.someOldProp;            // delete obsolete prop
+    //   return { ...oldData, newProp: "foo" }; // add new prop
     // },
   },
-  encodeData: (data) => canCompress ? compress(data, compressionFormat, "string") : data,
-  decodeData: (data) => canCompress ? decompress(data, compressionFormat, "string") : data,
+  compressionFormat,
 });
 
+/** Initializes the configuration DataStore by loading data from storage. */
 export async function initConfig() {
-  canCompress = await compressionSupported();
-  await config.loadData();
-}
-
-async function compressionSupported() {
-  if(typeof canCompress === "boolean")
-    return canCompress;
-  try {
-    await compress(".", compressionFormat, "string");
-    return canCompress = true;
-  }
-  catch(e) {
-    return canCompress = false;
-  }
+  await configStore.loadData();
 }

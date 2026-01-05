@@ -1,0 +1,13 @@
+{
+  "serializer": {
+    "import": {
+      "success_reload_prompt": "The data import was successful.\nDo you want to reload the page to apply the changes?",
+      "error_no_data": "Error: No data found to import.",
+      "error_checksum_mismatch": "Error: Checksum mismatch. The data may be corrupted or has been tampered with.",
+      "error_invalid": "Error: The provided data is invalid or malformed."
+    },
+    "export": {
+      "file_name": "#REPLACE:Userscript v${version} Data Export - ${date}.json"
+    }
+  }
+}

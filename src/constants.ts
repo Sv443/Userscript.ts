@@ -1,8 +1,9 @@
 import { randomId } from "@sv443-network/userutils";
 
-const modeRaw = "#{{MODE}}";
-const branchRaw = "#{{BRANCH}}";
-const hostRaw = "#{{HOST}}";
+// These raw values are replaced during the build process:
+const modeRaw = "#{{BUILD_MODE}}";
+const branchRaw = "#{{BUILD_BRANCH}}";
+const hostRaw = "#{{BUILD_HOST}}";
 const buildNumberRaw  = "#{{BUILD_NUMBER}}";
 
 /** The mode in which the script was built (production or development) */
